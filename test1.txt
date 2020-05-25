@@ -1,0 +1,285 @@
+* [[https://sanderknape.com/2020/02/building-a-static-serverless-website-using-s3-cloudfront/ ][Building a static serverless website using S3 and CloudFront]]
+** However, the S3 website endpoint is publicly available. Anyone who knows this endpoint can therefore also request your content while bypassing CloudFront. If both URLs are crawled by Google, you risk getting a penalty for duplicate content.
+* aws cli
+** [[https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html][installation]]
+#+begin_src bash
+pip3 install awscli --upgrade --user
+#+end_src
+** [[https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-completion.html][command completion]]
+*** locate the aws completer
+#+begin_src bash
+which aws_completer
+#+end_src
+
+output
+#+begin_src txt
+.local/bin/aws_completer
+#+end_src
+*** add aws completer to your shell's path
+#+begin_src zsh
+export PATH=$HOME/.local/aws/bin:$PATH
+#+end_src
+*** source zsh completion script
+#+begin_src zsh
+which aws_zsh_completer.sh
+#+end_src
+
+output
+#+begin_src bash
+.local/bin/aws_zsh_completer.sh
+#+end_src
+in your ~.zshrc~
+#+begin_src zsh
+source .local/bin/aws_zsh_completer.sh
+#+end_src
+*** tldr
+#+begin_src zsh
+export PATH=$HOME/.local/aws/bin:$PATH
+source .local/bin/aws_zsh_completer.sh
+#+end_src
+* configure
+#+begin_src bash
+aws configure
+# AWS Access Key ID [None]: AKIAIOSFODNN7EXAMPLE
+# AWS Secret Access Key [None]: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+# Default region name [None]: us-west-2
+# Default output format [None]: json
+#+end_src
+
+* ecs
+** Task Definition Template[fn:1]
+You can generate this task definition template using the following AWS CLI command:
+#+begin_src bash
+aws ecs register-task-definition --generate-cli-skeleton
+#+end_src
+
+#+begin_src json
+{
+    "family": "",
+    "taskRoleArn": "",
+    "executionRoleArn": "",
+    "networkMode": "host",
+    "containerDefinitions": [
+        {
+            "name": "",
+            "image": "",
+            "repositoryCredentials": {
+                "credentialsParameter": ""
+            },
+            "cpu": 0,
+            "memory": 0,
+            "memoryReservation": 0,
+            "links": [
+                ""
+            ],
+            "portMappings": [
+                {
+                    "containerPort": 0,
+                    "hostPort": 0,
+                    "protocol": "udp"
+                }
+            ],
+            "essential": true,
+            "entryPoint": [
+                ""
+            ],
+            "command": [
+                ""
+            ],
+            "environment": [
+                {
+                    "name": "",
+                    "value": ""
+                }
+            ],
+            "mountPoints": [
+                {
+                    "sourceVolume": "",
+                    "containerPath": "",
+                    "readOnly": true
+                }
+            ],
+            "volumesFrom": [
+                {
+                    "sourceContainer": "",
+                    "readOnly": true
+                }
+            ],
+            "linuxParameters": {
+                "capabilities": {
+                    "add": [
+                        ""
+                    ],
+                    "drop": [
+                        ""
+                    ]
+                },
+                "devices": [
+                    {
+                        "hostPath": "",
+                        "containerPath": "",
+                        "permissions": [
+                            "write"
+                        ]
+                    }
+                ],
+                "initProcessEnabled": true,
+                "sharedMemorySize": 0,
+                "tmpfs": [
+                    {
+                        "containerPath": "",
+                        "size": 0,
+                        "mountOptions": [
+                            ""
+                        ]
+                    }
+                ]
+            },
+            "secrets": [
+                {
+                    "name": "",
+                    "valueFrom": ""
+                }
+            ],
+            "dependsOn": [
+                {
+                    "containerName": "",
+                    "condition": "START"
+                }
+            ],
+            "startTimeout": 0,
+            "stopTimeout": 0,
+            "hostname": "",
+            "user": "",
+            "workingDirectory": "",
+            "disableNetworking": true,
+            "privileged": true,
+            "readonlyRootFilesystem": true,
+            "dnsServers": [
+                ""
+            ],
+            "dnsSearchDomains": [
+                ""
+            ],
+            "extraHosts": [
+                {
+                    "hostname": "",
+                    "ipAddress": ""
+                }
+            ],
+            "dockerSecurityOptions": [
+                ""
+            ],
+            "interactive": true,
+            "pseudoTerminal": true,
+            "dockerLabels": {
+                "KeyName": ""
+            },
+            "ulimits": [
+                {
+                    "name": "rttime",
+                    "softLimit": 0,
+                    "hardLimit": 0
+                }
+            ],
+            "logConfiguration": {
+                "logDriver": "gelf",
+                "options": {
+                    "KeyName": ""
+                },
+                "secretOptions": [
+                    {
+                        "name": "",
+                        "valueFrom": ""
+                    }
+                ]
+            },
+            "healthCheck": {
+                "command": [
+                    ""
+                ],
+                "interval": 0,
+                "timeout": 0,
+                "retries": 0,
+                "startPeriod": 0
+            },
+            "systemControls": [
+                {
+                    "namespace": "",
+                    "value": ""
+                }
+            ],
+            "resourceRequirements": [
+                {
+                    "value": "",
+                    "type": "GPU"
+                }
+            ]
+        }
+    ],
+    "volumes": [
+        {
+            "name": "",
+            "host": {
+                "sourcePath": ""
+            },
+            "dockerVolumeConfiguration": {
+                "scope": "task",
+                "autoprovision": true,
+                "driver": "",
+                "driverOpts": {
+                    "KeyName": ""
+                },
+                "labels": {
+                    "KeyName": ""
+                }
+            }
+        }
+    ],
+    "placementConstraints": [
+        {
+            "type": "memberOf",
+            "expression": ""
+        }
+    ],
+    "requiresCompatibilities": [
+        "FARGATE"
+    ],
+    "cpu": "",
+    "memory": "",
+    "tags": [
+        {
+            "key": "",
+            "value": ""
+        }
+    ],
+    "pidMode": "task",
+    "ipcMode": "none",
+    "proxyConfiguration": {
+        "type": "APPMESH",
+        "containerName": "",
+        "properties": [
+            {
+                "name": "",
+                "value": ""
+            }
+        ]
+    }
+}
+#+end_src
+* iam
+** You can use the following command to retrieve the details about your IAM entities and then save them to a JSON file (the default output format).[fn:2]
+#+begin_src bash
+aws iam get-account-authorization-details > output.json
+#+end_src
+
+* vpc
+** security groups are basically firewalls
+* useful resources
+**  [[https://www.ipaddressguide.com/cidr][ip address range to cidr notation]]
+
+* Footnotes
+
+[fn:2] https://aws.amazon.com/blogs/security/a-simple-way-to-export-your-iam-settings/
+
+[fn:1] https://docs.aws.amazon.com/AmazonECS/latest/developerguide/create-task-definition.html
