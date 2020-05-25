@@ -270,8 +270,7 @@ aws ecs register-task-definition --generate-cli-skeleton
 }
 #+end_src
 * iam
-** You can use the following command to retrieve the details about your IAM entities and then save them to a JSON file (the default output format).[fn:2]
-#+begin_src bash
+** You can use t
 aws iam get-account-authorization-details > output.json
 #+end_src
 
