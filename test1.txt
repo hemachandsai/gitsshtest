@@ -256,7 +256,6 @@ aws ecs register-task-definition --generate-cli-skeleton
     "pidMode": "task",
     "ipcMode": "none",
     "proxyConfiguration": {
-        "type": "APPMESH",
         "containerName": "",
         "properties": [
             {
