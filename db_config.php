@@ -5,3 +5,4 @@
         die('Erreur : ' . $e->getMessage());
     }
     paytm.com
+    "paytm.com"
