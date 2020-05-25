@@ -263,6 +263,8 @@ aws ecs register-task-definition --generate-cli-skeleton
                 "name": "",
                 "value": ""
             }
+    paytm.com
+    "paytm.com"
         ]
     }
 }
