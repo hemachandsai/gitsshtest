@@ -257,10 +257,7 @@ aws ecs register-task-definition --generate-cli-skeleton
     "ipcMode": "none",
         "properties": [
             {
-                "name": "",
-                "value": ""
-            }
-    paytm.com
+        paytm.com
     "paytm.com"
         ]
     }
